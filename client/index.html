@@ -100,6 +100,8 @@
 
 
       document.getElementById('form1').onsubmit = function(str) {
+        document.getElementById('submit-button').style.display = 'none'
+        document.getElementById('text-box').style.display = 'none'
         str.preventDefault()
         
         axios.get('https://api.jokes.one/jod')
