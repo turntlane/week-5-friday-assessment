@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="style.css">
+<html>
+  <head>
+    <title>Back End Assessment</title>
+  </head>
+  <body class="container">
+    <div class="compliment-button-container">
+      <button id="complimentButton">Get a compliment</button>
+    </div>
+    
+
+
+    <button id="fortuneButton">Get a fortune</button><br>
+
+    <div class="feels-container">
+      <label for="feels">GET UPLIFTED (select:)</label>
+      <select name="feels" id="feelings" multiple>
+        <option value="sad">Sad</option>
+        <option value="happy">Happy</option>
+        <option value="mad">Mad</option>
+      </select>
+      <section id="feels"></section>
+    </div>
+
+
+
+    <div class="feelsgood-container">
+      <button id="feelsgood">FEEL GOOD</button>
+      <section id="feelsgood-comp"></section>
+    </div>
+
+
+
+
+    <form action="" id="form1">
+      <input type="text" name="input-box" id="text-box" placeholder="How are you feeling? (sad/happy)">
+      <input id="submit-button" type="submit" value="Submit">
+      <section id="section3"></section>
+    </form>
+
+
+
+
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+      document.getElementById("complimentButton").onclick = function () {
+        document.getElementById("complimentButton").style.display = 'none'
+        
+
+        axios.get("http://localhost:4000/api/compliment/")
+            .then(function (response) {
+              const data = response.data;
+              alert(data);
+            });
+            
+      };
+      
+      document.getElementById('fortuneButton').onclick = function () {
+        document.getElementById("fortuneButton").style.display = 'none'
+        axios.get("http://localhost:4000/api/fortune/")
+            .then(function (response) {
+              const data = response.data;
+              alert(data);
+            });
+
+      }
+      document.getElementById('feelings').onclick = function () {
+        document.getElementById('feelings').style.display = 'none'
+        axios.get("http://localhost:4000/api/feels/")
+        .then(res => {
+          let text = document.getElementById('feels')
+          let content = document.createElement('h2')
+          content.textContent = res.data
+          text.appendChild(content)
+        
+        })
+      
+      }
+
+        document.getElementById('feelsgood').onclick = function () {
+          document.getElementById('feelsgood').style.display = 'none'
+        axios.get("https://complimentr.com/api")
+        .then(res => {
+          document.getElementById('feelsgood').style.display = 'none'
+
+          let comp = res.data.compliment
+          let text = document.getElementById('feelsgood-comp')
+          let content = document.createElement('h2')
+          content.textContent = `${comp}`
+          let newComp = text.append(content)
+          
+    
+          
+
+        })
+
+      }
+
+
+      document.getElementById('form1').onsubmit = function(str) {
+        str.preventDefault()
+        
+        axios.get('https://api.jokes.one/jod')
+        .then (res => {
+          let info = res.data.contents
+          let text = document.querySelector('#section3')
+                let content = document.createElement('h2')
+                let inputField = document.getElementById('text-box')
+                
+
+                text.appendChild(content)
+          if (inputField.value === 'sad'){
+            inputField.value = ''
+            return content.textContent = res.data.contents.jokes[0].joke.text
+            
+
+
+
+          }else if (inputField.value === 'happy') {
+            axios.get('https://api.chucknorris.io/jokes/random')
+            .then(res => {
+              inputField.value = ''
+              return content.textContent = res.data.value
+
+            })
+          }
+          else {
+            inputField.value = ''
+            return content.textContent = 'Input needs to be sad or happy.'
+
+          }
+      
+
+
+            })
+          
+
+
+
+        
+      
+        
+      }
+      
+
+    </script>
+  </body>
+</html>
